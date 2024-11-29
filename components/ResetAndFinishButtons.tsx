@@ -1,6 +1,6 @@
-import { State } from "@/app/index";
-import { View } from "react-native";
-import CircleButton from "./CircleButton";
+import { State } from '@/constants/State';
+import { Text, View } from "react-native";
+import FooterButton from "./FooterButton";
 
 type ResetAndFinishButtonsType = {
     state: State,
@@ -12,14 +12,13 @@ type ResetAndFinishButtonsType = {
 };
 
 const ResetAndFinishButtons = ({ state, setState, history, setHistory, time, setTime }: ResetAndFinishButtonsType) => {
-    console.log('hi',State.results.toString());
     return (
 
-        <View style={{ position: 'absolute', bottom: -100, flexDirection: 'row', gap: 12, justifyContent: 'center', alignSelf: 'center' }}>
+        <View style={{ height: 60, width: '100%', position: 'absolute', bottom: 0, flexDirection: 'row' }}>
             {(state === State.focus ||
                 state === State.break ||
                 state === State.results) && (
-                    <CircleButton
+                    <FooterButton
                         name="reset"
                         imageSource={require('@/assets/images/reset.png')}
                         onClick={() => {
@@ -31,7 +30,7 @@ const ResetAndFinishButtons = ({ state, setState, history, setHistory, time, set
                 )}
 
             {(state === State.focus || state === State.break) && (
-                <CircleButton
+                <FooterButton
                     name="finish"
                     imageSource={require('@/assets/images/finish.png')}
                     onClick={() => {

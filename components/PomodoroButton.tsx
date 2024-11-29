@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { State } from '../app/index';
+import { State } from '@/constants/State';
 
 interface PomodoroButtonInterface {
   onClick: () => void;

@@ -1,13 +1,13 @@
 import { Image } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { TouchableOpacity } from "react-native";
 
-interface CircleButtonInterface {
+interface FooterButtonInterface {
   onClick: () => void;
   name: string;
   imageSource: any;
 }
 
-const CircleButton = (props: CircleButtonInterface) => {
+const FooterButton = (props: FooterButtonInterface) => {
   // Does the accessible property group the button and image?
   // is it correct?
   // Does the a11y label go onto the image or the button?
@@ -15,22 +15,21 @@ const CircleButton = (props: CircleButtonInterface) => {
   return (
     <TouchableOpacity
       accessibilityLabel={props.name}
-      accessible={true}
+      accessibilityRole='button'
       onPress={props.onClick}
       style={{
-        borderWidth: 0,
-        borderRadius: 30,
-        width: 60,
-        height: 60,
-        backgroundColor: '#f3e8d8'
+        flex: 1,
+        backgroundColor: '#f3e8d8',
+        justifyContent: 'center',
+        alignItems: 'center',
       }}
     >
       <Image
         source={props.imageSource}
-        accessibilityLabel={props.name}
+        accessible={false} // image is decorative only. the action will be described in the touchableopacity
         style={{
-          width: "70%",
-          height: "70%",
+          width: 30,
+          height: 30,
           margin: 10
         }}
       >
@@ -39,4 +38,4 @@ const CircleButton = (props: CircleButtonInterface) => {
   );
 };
 
-export default CircleButton;
+export default FooterButton;

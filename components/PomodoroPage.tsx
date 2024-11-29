@@ -1,4 +1,4 @@
-import { State } from "../app/index";
+import { State } from '@/constants/State';
 import PomodoroButton from "./PomodoroButton";
 
 interface PomodoroPageInterface {

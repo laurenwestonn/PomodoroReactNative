@@ -25,6 +25,20 @@ In the output, you'll find options to open the app in a
 
 You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
 
+## Build the App for Android
+
+To get the app on your phone, you can scan the QR code that displays when you run your project.
+
+If that doesn't work due to firewall issues, you can create an .apk file and install it on your phone.
+
+Run this to build your app into an .apk.
+
+   ```bash
+   npm run build-apk
+   ```
+
+It'll generate a different QR Code which you can scan to get a download link for your .apk. Install your app.
+
 ## Get a fresh project
 
 When you're ready, run:

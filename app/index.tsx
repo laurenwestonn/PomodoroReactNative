@@ -1,15 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import PomodoroPage from "@/components/PomodoroPage";
-import { View } from "react-native";
+import { View, Image } from "react-native";
 import ResultsPage from '@/components/ResultsPage';
 import ResetAndFinishButtons from '@/components/ResetAndFinishButtons';
+import { State } from '@/constants/State';
 
-export enum State {
-  initial,
-  focus,
-  break,
-  results
-}
 
 export default function Index() {
   const [state, setState] = useState(State.initial);
@@ -42,7 +37,6 @@ export default function Index() {
       <View style={{
         alignItems: 'center'
       }}>
-
         {state === State.results
           ?
           <ResultsPage history={history} setHistory={setHistory} time={time} />
@@ -56,17 +50,17 @@ export default function Index() {
             setTime={setTime}
           />
         }
-        
-        <ResetAndFinishButtons
-          state={state}
-          setState={setState}
-          history={history}
-          setHistory={setHistory}
-          time={time}
-          setTime={setTime}
-        />
 
       </View>
+        
+      <ResetAndFinishButtons
+        state={state}
+        setState={setState}
+        history={history}
+        setHistory={setHistory}
+        time={time}
+        setTime={setTime}
+      />
 
     </View>
   );
