@@ -1,12 +1,12 @@
-import { StyleSheet, Text } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
-interface ResultsPageInterface {
-  history: number[];
+interface AllResultsPageInterface {
+  allHistories: number[][];
 }
 
 const formatTimeSimple = (time: number) => {
   const absTime = Math.abs(time);
-  
+
   if (absTime < 60) {
     return `${absTime}s`;
   } else {
@@ -20,24 +20,30 @@ const formatTimeSimple = (time: number) => {
   const seconds = absTime % 60;
 
   return (
-      <Text>
-        {hours}hr {minutes.toString().padStart(2, "0")}m{" "}{seconds.toString().padStart(2, "0")}s
-      </Text>
+    <Text>
+      {hours}hr {minutes.toString().padStart(2, "0")}m{" "}{seconds.toString().padStart(2, "0")}s
+    </Text>
   );
 };
 
-const ResultsPage = (props: ResultsPageInterface) => {
+const ResultsPage = (props: AllResultsPageInterface) => {
   return (
     <>
       <Text role="heading" style={styles.heading}>Results</Text>
-      {props.history.map((time, i) => (
-        <Text 
-          key={i} 
-          style={i % 2 === 0 ? styles.timeFocus : styles.timeBreak }
-        >
-          {formatTimeSimple(time)}
-        </Text>
-      ))}
+      {props.allHistories
+        ? props.allHistories.map((history, i) =>
+          <View key={i} style={{ flexDirection: 'row', borderWidth: 2 }}>
+            {history.map((time, i) => (
+              <Text
+                key={i}
+                style={i % 2 === 0 ? styles.timeFocus : styles.timeBreak}
+              >
+                {formatTimeSimple(time)}
+              </Text>
+            ))}
+          </View>
+        )
+        : <Text>No results found</Text>}
     </>
   );
 };

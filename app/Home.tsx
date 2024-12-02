@@ -4,9 +4,12 @@ import { View, Image } from "react-native";
 import ResultsPage from '@/components/ResultsPage';
 import ResetAndFinishButtons from '@/components/ResetAndFinishButtons';
 import { State } from '@/constants/State';
+import { useHistories } from '@/context/HistoriesProvider';
+import AppPageWrapper from '@/components/AppPageWrapper';
 
 
-export default function Index() {
+export default function Home() {
+  const { addHistory } = useHistories();
   const [state, setState] = useState(State.initial);
   const [history, setHistory] = useState<number[]>([]);
   const [time, setTime] = useState(0);
@@ -25,21 +28,22 @@ export default function Index() {
   }, [state, time]);
 
 
+  const finishSession = () => {
+    if (history.length > 0) {
+      addHistory(history); // Add the current session's history to the global state
+      setHistory([]);
+    }
+  };
+
   return (
-    <View
-      style={{
-        backgroundColor: '#282c34',
-        flex: 1,
-        alignItems: "center",
-        justifyContent: 'center',
-      }}
-    >
+    <AppPageWrapper>
+
       <View style={{
         alignItems: 'center'
       }}>
         {state === State.results
           ?
-          <ResultsPage history={history} setHistory={setHistory} time={time} />
+          <ResultsPage history={history} />
           :
           <PomodoroPage
             state={state}
@@ -52,16 +56,17 @@ export default function Index() {
         }
 
       </View>
-        
+
       <ResetAndFinishButtons
         state={state}
         setState={setState}
         history={history}
         setHistory={setHistory}
+        finishSession={finishSession}
         time={time}
         setTime={setTime}
       />
 
-    </View>
+    </AppPageWrapper>
   );
 }

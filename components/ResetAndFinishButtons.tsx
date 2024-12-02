@@ -8,10 +8,11 @@ type ResetAndFinishButtonsType = {
     history: any[],
     setHistory: (h: any[]) => void,
     time: number,
-    setTime: (n: number) => void
+    setTime: (n: number) => void,
+    finishSession: () => void
 };
 
-const ResetAndFinishButtons = ({ state, setState, history, setHistory, time, setTime }: ResetAndFinishButtonsType) => {
+const ResetAndFinishButtons = ({ state, setState, history, setHistory, time, setTime, finishSession }: ResetAndFinishButtonsType) => {
     return (
 
         <View style={{ height: 60, width: '100%', position: 'absolute', bottom: 0, flexDirection: 'row' }}>
@@ -36,6 +37,7 @@ const ResetAndFinishButtons = ({ state, setState, history, setHistory, time, set
                     onClick={() => {
                         setState(State.results);
                         setHistory([...history, time]);
+                        finishSession();
                     }}
                 />
             )}
