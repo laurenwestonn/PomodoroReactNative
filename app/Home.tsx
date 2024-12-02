@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import PomodoroPage from "@/components/PomodoroPage";
-import { View, Image } from "react-native";
+import { View } from "react-native";
 import ResultsPage from '@/components/ResultsPage';
 import ResetAndFinishButtons from '@/components/ResetAndFinishButtons';
 import { State } from '@/constants/State';
 import { useHistories } from '@/context/HistoriesProvider';
 import AppPageWrapper from '@/components/AppPageWrapper';
-
+import { useRouter } from "expo-router";
 
 export default function Home() {
   const { addHistory } = useHistories();
@@ -14,6 +14,7 @@ export default function Home() {
   const [history, setHistory] = useState<number[]>([]);
   const [time, setTime] = useState(0);
 
+  const router = useRouter();
   useEffect(() => {
     let intervalId: NodeJS.Timer;
     if (state === State.focus) {
@@ -27,12 +28,36 @@ export default function Home() {
     return () => clearInterval(intervalId);
   }, [state, time]);
 
+  // Todo: DRY with Pomodoro page code
+  const updateHistoryWithLatestTime = () => {
+    if (state == State.focus) {
+      setHistory([...history, time]);
+      return [...history, time];
+    } else if (state == State.break) {
+            
+      const calcBreak = (time: number) => {
+        return Math.floor(time / 5);
+      };
 
-  const finishSession = () => {
-    if (history.length > 0) {
-      addHistory(history); // Add the current session's history to the global state
-      setHistory([]);
+      const recommendedBreak = calcBreak(
+        history[history.length - 1]
+      );
+
+      setHistory([...history, recommendedBreak - time]);
+      return [...history, recommendedBreak - time];
     }
+
+    return [];
+  };
+
+  const showResults = () => {
+    const history: number[] = updateHistoryWithLatestTime();
+
+    if (history.length > 0) {
+      addHistory(history);
+    }
+
+    router.push("ResultsTab");
   };
 
   return (
@@ -60,10 +85,8 @@ export default function Home() {
       <ResetAndFinishButtons
         state={state}
         setState={setState}
-        history={history}
         setHistory={setHistory}
-        finishSession={finishSession}
-        time={time}
+        showResults={showResults}
         setTime={setTime}
       />
 

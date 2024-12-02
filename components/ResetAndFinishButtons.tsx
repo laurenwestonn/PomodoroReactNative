@@ -1,20 +1,24 @@
 import { State } from '@/constants/State';
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import FooterButton from "./FooterButton";
 
 type ResetAndFinishButtonsType = {
     state: State,
     setState: (state: State) => void,
-    history: any[],
     setHistory: (h: any[]) => void,
-    time: number,
     setTime: (n: number) => void,
-    finishSession: () => void
+    showResults: () => void
 };
 
-const ResetAndFinishButtons = ({ state, setState, history, setHistory, time, setTime, finishSession }: ResetAndFinishButtonsType) => {
-    return (
+const ResetAndFinishButtons = ({ state, setState, setHistory, setTime, showResults }: ResetAndFinishButtonsType) => {
+    
+    const clearCurrentSession = () => {
+        setState(State.initial);
+        setHistory([]);
+        setTime(0);
+    }
 
+    return (
         <View style={{ height: 60, width: '100%', position: 'absolute', bottom: 0, flexDirection: 'row' }}>
             {(state === State.focus ||
                 state === State.break ||
@@ -22,11 +26,7 @@ const ResetAndFinishButtons = ({ state, setState, history, setHistory, time, set
                     <FooterButton
                         name="reset"
                         imageSource={require('@/assets/images/reset.png')}
-                        onClick={() => {
-                            setState(State.initial);
-                            setHistory([]);
-                            setTime(0);
-                        }}
+                        onClick={clearCurrentSession}
                     />
                 )}
 
@@ -35,9 +35,9 @@ const ResetAndFinishButtons = ({ state, setState, history, setHistory, time, set
                     name="finish"
                     imageSource={require('@/assets/images/finish.png')}
                     onClick={() => {
-                        setState(State.results);
-                        setHistory([...history, time]);
-                        finishSession();
+                        // todo: move this functionality to the results tab
+                        showResults();
+                        clearCurrentSession();
                     }}
                 />
             )}

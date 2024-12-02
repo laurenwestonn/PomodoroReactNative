@@ -32,7 +32,7 @@ const ResultsPage = (props: AllResultsPageInterface) => {
       <Text role="heading" style={styles.heading}>Results</Text>
       {props.allHistories
         ? props.allHistories.map((history, i) =>
-          <View key={i} style={{ flexDirection: 'row', borderWidth: 2 }}>
+          <View key={i} style={{ flexDirection: 'row' }}>
             {history.map((time, i) => (
               <Text
                 key={i}
