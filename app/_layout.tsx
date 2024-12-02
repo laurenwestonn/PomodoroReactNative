@@ -12,7 +12,8 @@ export default function RootLayout() {
           name="Home"
           options={{
             title: "Pomodoro",
-            tabBarIcon: ({ color }) => <FontAwesome size={28} name="home" color={color} />
+            tabBarIcon: ({ color }) => <FontAwesome size={28} name="home" color={color} />,
+            headerShown: false,
           }}
         />
         <Tabs.Screen
@@ -20,6 +21,7 @@ export default function RootLayout() {
           options={{
             title: "Results",
             tabBarIcon: ({ color }) => <Entypo name="bar-graph" size={24} color={color} />,
+            headerShown: false,
           }} />
       </Tabs>
     </HistoriesProvider>
