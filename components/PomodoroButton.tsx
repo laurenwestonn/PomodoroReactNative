@@ -59,11 +59,13 @@ const PomodoroButton: React.FC<PomodoroButtonInterface> = ({
         onPress={onClick}
       >
         <Text style={styles.buttonText}>{text}</Text>
-        <Text style={styles.buttonText}>{formatTime(time)}</Text>
+        <Text style={styles.buttonTimeText}>{formatTime(time)}</Text>
       </TouchableOpacity>
     </View>
   );
 };
+
+const buttonRadius = 250;
 
 const styles = StyleSheet.create({
   container: {
@@ -72,9 +74,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   pomodoroButton: {
-    width: 250, // Adjust this value as needed
-    height: 250, // Same as width to make it a circle
-    borderRadius: 125, // Half of the width/height for a perfect circle
+    width: buttonRadius,
+    height: buttonRadius,
+    borderRadius: buttonRadius / 2,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -83,6 +85,13 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: 'bold',
   },
+  buttonTimeText: {
+    // fontFamily: 'SpaceMono',
+    fontFamily: 'Monospace',
+    color: 'white',
+    fontSize: 38,
+    fontWeight: 'bold',
+  }
 });
 
 export default PomodoroButton;

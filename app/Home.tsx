@@ -64,6 +64,7 @@ export default function Home() {
   const showResults = () => {
     const history: number[] = updateHistoryWithLatestTime();
     setHistory([]);
+    setTime(0);
     if (history.length > 0) {
       addHistory(history);
     }
