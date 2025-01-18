@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PomodoroPage from "@/components/PomodoroPage";
 import { View } from "react-native";
-import ResultsPage from '@/components/ResultsPage';
 import ResetAndFinishButtons from '@/components/ResetAndFinishButtons';
 import { State } from '@/constants/State';
 import { useHistories } from '@/context/HistoriesProvider';
@@ -19,6 +18,7 @@ export default function Home() {
   const router = useRouter();
 
   useEffect(() => {
+    console.log('State:', State[state])
     if (state === State.break) { 
       setStartTime(getTimeNow() + calcBreak(getTimeNow() - startTime));
     } else {
@@ -78,20 +78,14 @@ export default function Home() {
       <View style={{
         alignItems: 'center'
       }}>
-        {state === State.results
-          ?
-          <ResultsPage history={history} />
-          :
-          <PomodoroPage
-            state={state}
-            setState={setState}
-            history={history}
-            setHistory={setHistory}
-            time={time}
-            setTime={setTime}
-          />
-        }
-
+        <PomodoroPage
+          state={state}
+          setState={setState}
+          history={history}
+          setHistory={setHistory}
+          time={time}
+          setTime={setTime}
+        />
       </View>
 
       <ResetAndFinishButtons

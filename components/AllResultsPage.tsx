@@ -1,4 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
+import React from 'react';
 
 interface AllResultsPageInterface {
   allHistories: number[][];
@@ -26,12 +27,10 @@ const formatTimeSimple = (time: number) => {
   );
 };
 
-const ResultsPage = (props: AllResultsPageInterface) => {
+const renderResults = (allHistories: number[][]) => {
   return (
-    <>
-      <Text role="heading" style={styles.heading}>Results</Text>
-      {props.allHistories
-        ? props.allHistories.map((history, i) =>
+    allHistories && allHistories.length > 0
+        ? allHistories.map((history, i) =>
           <View key={i} style={{ flexDirection: 'row' }}>
             {history.map((time, i) => (
               <Text
@@ -43,12 +42,20 @@ const ResultsPage = (props: AllResultsPageInterface) => {
             ))}
           </View>
         )
-        : <Text>No results found</Text>}
+        : <Text style={styles.timeBreak}>No results found</Text>
+  )
+}
+
+const AllResultsPage = (props: AllResultsPageInterface) => {
+  return (
+    <>
+      <Text role="heading" style={styles.heading}>Results</Text>
+      {renderResults(props.allHistories)}
     </>
   );
 };
 
-export default ResultsPage;
+export default AllResultsPage;
 
 
 const styles = StyleSheet.create({

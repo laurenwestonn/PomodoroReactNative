@@ -1,4 +1,3 @@
-import AppPageWrapper from "@/components/AppPageWrapper";
 import { HistoriesProvider } from "@/context/HistoriesProvider";
 import { FontAwesome } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
@@ -9,7 +8,7 @@ export default function RootLayout() {
     <HistoriesProvider>
       <Tabs>
         <Tabs.Screen
-          name="Home"
+          name="index"
           options={{
             title: "Pomodoro",
             tabBarIcon: ({ color }) => <FontAwesome size={28} name="home" color={color} />,
