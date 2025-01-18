@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, ScrollView, Button } from "react-native";
 import React from 'react';
 
 interface AllResultsPageInterface {
@@ -31,7 +31,7 @@ const renderResults = (allHistories: number[][]) => {
   return (
     allHistories && allHistories.length > 0
         ? allHistories.map((history, i) =>
-          <View key={i} style={{ flexDirection: 'row' }}>
+          <View key={i} style={styles.resultRow}>
             {history.map((time, i) => (
               <Text
                 key={i}
@@ -50,7 +50,11 @@ const AllResultsPage = (props: AllResultsPageInterface) => {
   return (
     <>
       <Text role="heading" style={styles.heading}>Results</Text>
-      {renderResults(props.allHistories)}
+      {/* Make absolute top right */}
+      <Button title={"Clear history"} onPress={() => console.log('implement clear all histories here')}/>
+      <ScrollView contentContainerStyle={styles.resultsContainer}>
+        {renderResults(props.allHistories)}
+      </ScrollView>
     </>
   );
 };
@@ -62,15 +66,32 @@ const styles = StyleSheet.create({
   heading: {
     fontSize: 32,
     fontWeight: 'bold',
-    color: 'white'
+    color: 'white',
+    marginBottom: 10,
+    marginTop: 40
+  },
+  resultsContainer: {
+    padding: 16,
+    flex: 1,
+    width: '100%',
+  },
+  resultRow: { 
+    flexDirection: 'row', 
+    alignItems: 'center',
+    paddingVertical: 10,
+    borderBottomColor: 'black',
+    borderBottomWidth: 1,
+    width: '60%',
   },
   timeFocus: {
     fontSize: 28,
     fontWeight: 'bold',
+    padding: 5,
     color: 'rgb(221, 155, 61)'
   },
   timeBreak: {
-    fontSize: 16,
+    fontSize: 20,
+    padding: 5,
     color: 'rgb(148, 203, 240)'
   }
 })
