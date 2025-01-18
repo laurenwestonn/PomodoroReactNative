@@ -13,37 +13,48 @@ export default function Home() {
   const [state, setState] = useState(State.initial);
   const [history, setHistory] = useState<number[]>([]);
   const [time, setTime] = useState(0);
+  const [startTime, setStartTime] = useState(0);
+  const getTimeNow = () => Math.ceil(new Date().getTime() / 1000);
 
   const router = useRouter();
+
   useEffect(() => {
-    let intervalId: NodeJS.Timer;
+    if (state === State.break) { 
+      setStartTime(getTimeNow() + calcBreak(getTimeNow() - startTime));
+    } else {
+      setStartTime(getTimeNow());
+    }
+  }, [state])
+
+  useEffect(() => {
+    let intervalId: NodeJS.Timeout;
+
     if (state === State.focus) {
-      // incrementing time by 1 every second
-      intervalId = setInterval(() => setTime(time + 1), 1000);
+      intervalId = setInterval(() => setTime(getTimeNow() - startTime)), 10; // update value more often than every second, to account for changing state mid second
+    } else if (state === State.break) {
+      intervalId = setInterval(() => setTime(startTime - getTimeNow()), 10);
+    } else {
+      setTime(0);
     }
-    if (state === State.break) {
-      // decrease time by 1 every second
-      intervalId = setInterval(() => setTime(time - 1), 1000);
-    }
+
+    // The next time this use effect is entered, it stops doing the regularly defined thing in setInterval
     return () => clearInterval(intervalId);
-  }, [state, time]);
+  }, [startTime])
+
+  const calcBreak = (time: number) => {
+    return Math.floor(time / 5);
+  };
 
   // Todo: DRY with Pomodoro page code
   const updateHistoryWithLatestTime = () => {
     if (state == State.focus) {
-      setHistory([...history, time]);
       return [...history, time];
     } else if (state == State.break) {
-            
-      const calcBreak = (time: number) => {
-        return Math.floor(time / 5);
-      };
 
       const recommendedBreak = calcBreak(
         history[history.length - 1]
       );
 
-      setHistory([...history, recommendedBreak - time]);
       return [...history, recommendedBreak - time];
     }
 
@@ -52,7 +63,7 @@ export default function Home() {
 
   const showResults = () => {
     const history: number[] = updateHistoryWithLatestTime();
-
+    setHistory([]);
     if (history.length > 0) {
       addHistory(history);
     }
