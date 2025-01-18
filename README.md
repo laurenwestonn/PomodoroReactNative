@@ -39,6 +39,14 @@ Run this to build your app into an .apk.
 
 It'll generate a different QR Code which you can scan to get a download link for your .apk. Install your app.
 
+If you can't run that because you don't have eas, run:
+
+   ```bash
+   npm i -g eas-cli
+   ```
+
+
+
 ## Get a fresh project
 
 When you're ready, run:
