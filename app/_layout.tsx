@@ -21,7 +21,16 @@ export default function RootLayout() {
             title: "Results",
             tabBarIcon: ({ color }) => <Entypo name="bar-graph" size={24} color={color} />,
             headerShown: false,
-          }} />
+          }} 
+        />
+        <Tabs.Screen
+          name="Graph"
+          options={{
+            title: "Graph",
+            tabBarIcon: ({ color }) => <Entypo name="line-graph" size={24} color={color} />,
+            headerShown: false,
+          }} 
+        />
       </Tabs>
     </HistoriesProvider>
   );
