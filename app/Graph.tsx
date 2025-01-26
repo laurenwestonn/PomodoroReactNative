@@ -1,14 +1,13 @@
 import React from "react";
 import AppPageWrapper from '@/components/AppPageWrapper';
-import { Area, Line, Chart, HorizontalAxis, VerticalAxis, Label, XYValue } from 'react-native-responsive-linechart';
-import { humanReadableToGraphPlot, valueToTime } from "@/utils/timeHelpers";
-import { humanReadablePlots } from "@/utils/testData";
+import { Area, Line, Chart, HorizontalAxis, VerticalAxis, Label } from 'react-native-responsive-linechart';
+import { testBasicPlots, testPlots, valueToTime } from "@/utils/timeHelpers";
 
 const ResultsTab = () => {
     return (
         <AppPageWrapper>
             <Chart style={{height: 400, width: "100%"}}
-                data={humanReadablePlots.map(humanReadableToGraphPlot)}
+                data={testPlots}
                 padding={{left: 40, bottom: 60, right: 20, top: 20}}
                 yDomain={{ min: 0, max: 90}}
             >

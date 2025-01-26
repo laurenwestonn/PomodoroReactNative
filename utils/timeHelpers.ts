@@ -1,3 +1,5 @@
+import { humanReadablePlots, simulateWork } from "./testData";
+
 // 8.5 => '8:30'
 export const valueToTime = (value: number) => {
     const hours = Math.floor(value);
@@ -31,7 +33,7 @@ export const humanReadableToGraphPlot = (point: { x: string, y: number }) => {
 export const getTimeNow = () => Math.ceil(new Date().getTime() / 1000);
 export const getMsTimeNow = () => new Date().getTime();
 
-const addMinutes = (timestamp: number, minutes: number) => {
+export const addMinutes = (timestamp: number, minutes: number) => {
     return timestamp + minutes * 60 * 1000;
 }
 
@@ -47,6 +49,9 @@ const msToXValue = (timestamp: number) => {
 }
 
 const createPlot = (timestamp1: number, timestamp2: number) => {
+    if (timestamp1 > timestamp2) {
+        console.error('The first time should be before the second, in order to create a plot')
+    }
     console.log(`From times ${timestampToHumanReadable(timestamp1)}, ${timestampToHumanReadable(timestamp2)}, created plot { x: ${msToXValue((timestamp1 + timestamp2) / 2)}, y: ${(timestamp2 - timestamp1) / 60000} }`)
     return {
         x: msToXValue((timestamp1 + timestamp2) / 2),
@@ -56,9 +61,17 @@ const createPlot = (timestamp1: number, timestamp2: number) => {
 
 const timestampToHumanReadable = (timestamp: number) => {
     const date = new Date(timestamp)
-    return `${date.getUTCHours()}:${date.getUTCMinutes()}:${date.getUTCSeconds()}`
+    return `${date.getUTCHours()}:${date.getUTCMinutes().toString().padStart(2, '0')}`
 }
 
-
 const now = getMsTimeNow();
-createPlot(now, addMinutes(now, 30));
+
+const day = simulateWork(now);
+
+export const testPlots = [
+    createPlot(day[0], day[1]),
+    createPlot(day[2], day[3]),
+    createPlot(day[4], day[5])
+]
+
+export const testBasicPlots = humanReadablePlots.map(humanReadableToGraphPlot)
