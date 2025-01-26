@@ -1,3 +1,4 @@
+import { XYValue } from "react-native-responsive-linechart";
 import { humanReadablePlots, simulateWork } from "./testData";
 
 // 8.5 => '8:30'
@@ -48,11 +49,11 @@ const msToXValue = (timestamp: number) => {
     return parseFloat(decimalTime.toFixed(2));  // Round to 2 decimal places
 }
 
-const createPlot = (timestamp1: number, timestamp2: number) => {
+const createPlot = (timestamp1: number, timestamp2: number, debug = false) => {
     if (timestamp1 > timestamp2) {
         console.error('The first time should be before the second, in order to create a plot')
     }
-    console.log(`From times ${timestampToHumanReadable(timestamp1)}, ${timestampToHumanReadable(timestamp2)}, created plot { x: ${msToXValue((timestamp1 + timestamp2) / 2)}, y: ${(timestamp2 - timestamp1) / 60000} }`)
+    debug && console.log(`From times ${timestampToHumanReadable(timestamp1)}, ${timestampToHumanReadable(timestamp2)}, created plot { x: ${msToXValue((timestamp1 + timestamp2) / 2)}, y: ${(timestamp2 - timestamp1) / 60000} }`)
     return {
         x: msToXValue((timestamp1 + timestamp2) / 2),
         y: (timestamp2 - timestamp1) / 1000 / 60
@@ -65,13 +66,23 @@ const timestampToHumanReadable = (timestamp: number) => {
 }
 
 const now = getMsTimeNow();
+const date = new Date(now);
+const eightAm = new Date(date.setHours(8)).setMinutes(0);
 
-const day = simulateWork(now);
-
-export const testPlots = [
-    createPlot(day[0], day[1]),
-    createPlot(day[2], day[3]),
-    createPlot(day[4], day[5])
-]
+const day = simulateWork(eightAm);
 
 export const testBasicPlots = humanReadablePlots.map(humanReadableToGraphPlot)
+
+const timestampsToPlots = (timestamps: number[]) => {
+    if (!timestamps || timestamps.length < 2) return [];
+
+    const plots: XYValue[] = []
+    for (let i = 1; i < timestamps.length; i+=2) {
+        const plot = createPlot(timestamps[i-1], timestamps[i]);
+        plots.push(plot);
+    }
+
+    return plots
+}
+
+export const testPlots = timestampsToPlots(day);

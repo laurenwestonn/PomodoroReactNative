@@ -11,7 +11,7 @@ export const humanReadablePlots = [
 export const simulateWork = (timestamp: number) => {
     return [
         timestamp,
-        addMinutes(timestamp, 20),
+        addMinutes(timestamp, 30),
         addMinutes(timestamp, 45),
         addMinutes(timestamp, 75),
         addMinutes(timestamp, 90),
