@@ -8,13 +8,5 @@ export const humanReadablePlots = [
     { x: '10:45', y: 50},
 ];
 
-export const simulateWork = (timestamp: number) => {
-    return [
-        timestamp,
-        addMinutes(timestamp, 30),
-        addMinutes(timestamp, 45),
-        addMinutes(timestamp, 75),
-        addMinutes(timestamp, 90),
-        addMinutes(timestamp, 150),
-    ]
-}
+// Work for 30 mins, break for 15 mins, work for 30 min....
+export const workCycle = [20, 10, 30, 15, 60, 25, 50];

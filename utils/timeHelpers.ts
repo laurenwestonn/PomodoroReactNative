@@ -1,5 +1,5 @@
 import { XYValue } from "react-native-responsive-linechart";
-import { humanReadablePlots, simulateWork } from "./testData";
+import { humanReadablePlots, workCycle } from "./testData";
 
 // 8.5 => '8:30'
 export const valueToTime = (value: number) => {
@@ -65,10 +65,17 @@ const timestampToHumanReadable = (timestamp: number) => {
     return `${date.getUTCHours()}:${date.getUTCMinutes().toString().padStart(2, '0')}`
 }
 
+const simulateWork = (timestamp: number) => {
+    return workCycle.reduce<number[]>((acc, duration) => {
+        const lastTime = acc.length > 0 ? acc[acc.length - 1] : timestamp;
+        acc.push(addMinutes(lastTime, duration));
+        return acc;
+    }, [timestamp])
+}
+
 const now = getMsTimeNow();
 const date = new Date(now);
 const eightAm = new Date(date.setHours(8)).setMinutes(0);
-
 const day = simulateWork(eightAm);
 
 export const testBasicPlots = humanReadablePlots.map(humanReadableToGraphPlot)
