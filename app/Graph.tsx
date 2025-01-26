@@ -1,49 +1,14 @@
 import React from "react";
 import AppPageWrapper from '@/components/AppPageWrapper';
 import { Area, Line, Chart, HorizontalAxis, VerticalAxis, Label, XYValue } from 'react-native-responsive-linechart';
-
-const valueToTime = (value: number) => {
-    const hours = Math.floor(value);
-
-    const decimal = value % 1;
-    const minutes = Math.round(decimal * 60);
-    const formattedMinutes = minutes.toString().padStart(2, '0');
-
-    return `${hours}:${(formattedMinutes)}`;
-}
-
-// 8:30 => 8.5
-// 9:15 => 9.25
-const timeToValue = (time: string) => {
-    const [hours, minutes] = time.split(':').map(Number);
-
-    if (isNaN(hours) || isNaN(minutes)) {
-        throw new Error(`Invalid time format: ${time}`);
-    }
-
-    return hours + minutes / 60;
-}
-
-const timeData = [
-    { x: '8:30', y: 30},
-    { x: '9:15', y: 30},
-    { x: '9:30', y: 20},
-    { x: '10:15', y: 60},
-    { x: '10:45', y: 50},
-];
-
-const chartData: XYValue[] = timeData.map(point => {
-    return ({ 
-        x: timeToValue(point.x),
-        y: point.y
-     })
-})
+import { humanReadableToGraphPlot, valueToTime } from "@/utils/timeHelpers";
+import { humanReadablePlots } from "@/utils/testData";
 
 const ResultsTab = () => {
     return (
         <AppPageWrapper>
             <Chart style={{height: 400, width: "100%"}}
-                data={chartData}
+                data={humanReadablePlots.map(humanReadableToGraphPlot)}
                 padding={{left: 40, bottom: 60, right: 20, top: 20}}
                 yDomain={{ min: 0, max: 90}}
             >
@@ -55,7 +20,7 @@ const ResultsTab = () => {
                     theme={{
                         ...axisTheme, 
                         labels: { 
-                            label: {...labelTheme, rotation: 60, dx: 0, dy: -30} ,
+                            label: {...labelTheme, rotation: 60, dx: 0, dy: -30},
                             formatter: valueToTime
                         }    
                     }} 
