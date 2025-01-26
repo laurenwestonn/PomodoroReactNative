@@ -6,6 +6,7 @@ import { State } from '@/constants/State';
 import { useHistories } from '@/context/HistoriesProvider';
 import AppPageWrapper from '@/components/AppPageWrapper';
 import { useRouter } from "expo-router";
+import { getTimeNow } from '@/utils/timeHelpers';
 
 export default function Home() {
   const { addHistory } = useHistories();
@@ -13,7 +14,6 @@ export default function Home() {
   const [history, setHistory] = useState<number[]>([]);
   const [time, setTime] = useState(0);
   const [startTime, setStartTime] = useState(0);
-  const getTimeNow = () => Math.ceil(new Date().getTime() / 1000);
 
   const router = useRouter();
 
