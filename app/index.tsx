@@ -6,7 +6,7 @@ import { State } from '@/constants/State';
 import { useHistories } from '@/context/HistoriesProvider';
 import AppPageWrapper from '@/components/AppPageWrapper';
 import { useRouter } from "expo-router";
-import { getTimeNow } from '@/utils/timeHelpers';
+import { getTimeNowInSeconds } from '@/utils/timeHelpers';
 
 export default function Home() {
   const { addHistory } = useHistories();
@@ -20,9 +20,9 @@ export default function Home() {
   useEffect(() => {
     console.log('State:', State[state])
     if (state === State.break) { 
-      setStartTime(getTimeNow() + calcBreak(getTimeNow() - startTime));
+      setStartTime(getTimeNowInSeconds() + calcBreak(getTimeNowInSeconds() - startTime));
     } else {
-      setStartTime(getTimeNow());
+      setStartTime(getTimeNowInSeconds());
     }
   }, [state])
 
@@ -30,9 +30,9 @@ export default function Home() {
     let intervalId: NodeJS.Timeout;
 
     if (state === State.focus) {
-      intervalId = setInterval(() => setTime(getTimeNow() - startTime)), 10; // update value more often than every second, to account for changing state mid second
+      intervalId = setInterval(() => setTime(getTimeNowInSeconds() - startTime)), 10; // update value more often than every second, to account for changing state mid second
     } else if (state === State.break) {
-      intervalId = setInterval(() => setTime(startTime - getTimeNow()), 10);
+      intervalId = setInterval(() => setTime(startTime - getTimeNowInSeconds()), 10);
     } else {
       setTime(0);
     }
