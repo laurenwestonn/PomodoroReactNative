@@ -1,6 +1,6 @@
 import AllResultsPage from '@/components/AllResultsPage';
 import React from "react";
-import { View , Text} from 'react-native';
+import { View } from 'react-native';
 
 import { useHistories } from "@/context/HistoriesProvider";
 import AppPageWrapper from '@/components/AppPageWrapper';

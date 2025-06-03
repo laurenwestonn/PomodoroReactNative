@@ -19,6 +19,7 @@ export default function Home() {
 
   useEffect(() => {
     let intervalId: NodeJS.Timeout;
+    console.log('State:', State[state])
 
     if (state === State.focus) {
       let startTimeNew = getTimeNowInMillis();
@@ -37,6 +38,7 @@ export default function Home() {
         setTime(startTimeNew - getTimeNowInMillis())
       }, 10);
     } else {
+      setHistory([]);
       setTime(0);
     }
 
@@ -92,16 +94,13 @@ export default function Home() {
           history={history}
           setHistory={setHistory}
           time={time}
-          setTime={setTime}
         />
       </View>
 
       <ResetAndFinishButtons
         state={state}
-        setState={setState}
-        setHistory={setHistory}
+        setInitialState={() => setState(State.initial)}
         showResults={showResults}
-        setTime={setTime}
       />
 
     </AppPageWrapper>

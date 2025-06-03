@@ -5,7 +5,6 @@ interface PomodoroPageInterface {
   state: State;
   setState: (state: State) => void;
   time: number;
-  setTime: (time: number) => void;
   history: number[];
   setHistory: (time: number[]) => void;
 }
@@ -30,7 +29,6 @@ const PomodoroPage = (props: PomodoroPageInterface) => {
         onClick={() => {
           props.setState(State.break);
           props.setHistory([...props.history, props.time]);
-          props.setTime(calcBreak(props.time));
         }}
         text={'Tap for a break'}
         stateName={State.focus}
@@ -47,7 +45,6 @@ const PomodoroPage = (props: PomodoroPageInterface) => {
             props.history[props.history.length - 1]
           );
           props.setHistory([...props.history, recommendedBreak - props.time]);
-          props.setTime(0);
         }}
         text={'Back to it in...'}
         stateName={State.break}

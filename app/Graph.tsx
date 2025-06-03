@@ -3,11 +3,11 @@ import AppPageWrapper from '@/components/AppPageWrapper';
 import { Area, Line, Chart, HorizontalAxis, VerticalAxis, Label } from 'react-native-responsive-linechart';
 import { testBasicPlots, testPlots, valueToTime } from "@/utils/timeHelpers";
 
-interface ResultsTabProps {
+interface GraphPageProps {
     data?: any[]
 }
 
-const ResultsTab = (props: ResultsTabProps) => {
+const GraphPage = (props: GraphPageProps) => {
     console.log('Viewing graph for ', props.data ?? testPlots)
     return (
         <AppPageWrapper>
@@ -56,4 +56,4 @@ const axisTheme = {
     }
 }
 
-export default ResultsTab;
+export default GraphPage;
