@@ -38,10 +38,11 @@ const timestampToGraphValue = (timestamp: number): number => {
 
 // Convert timestamp to human-readable time
 // (e.g. 1737887405000 -> "10:30")
-const timestampToHumanReadable = (timestamp: number): string => {
+export const timestampToHumanReadable = (timestamp: number): string => {
     const date = new Date(timestamp);
     const mins = date.getUTCMinutes().toString().padStart(2, '0');
-    return `${date.getUTCHours()}:${mins}`;
+    const secs = date.getUTCSeconds().toString().padStart(2, '0')
+    return `${date.getUTCHours()}:${mins}:${secs}`;
 }
 
 
@@ -49,6 +50,7 @@ const timestampToHumanReadable = (timestamp: number): string => {
 // DATE & TIME MANIPULATION
 // =============================
 
+export const getTimeNowInMillis = () => Date.now();
 export const getTimeNowInSeconds = () => Math.ceil(Date.now() / 1000);
 const getTimeNowInMs = () => Date.now();
 
@@ -108,6 +110,7 @@ const now = getTimeNowInMs();
 const date = new Date(now);
 const eightAm = new Date(date.setHours(8)).setMinutes(0);
 const anExampleDaysTimestamps = simulateWork(eightAm, exampleWorkDurations);
+console.log('AnExampleDaytimestamps:', anExampleDaysTimestamps)
 
 export const testBasicPlots = humanReadablePlots.map(humanReadableToGraphPlot);
 export const testPlots = timestampsToPlots(anExampleDaysTimestamps);

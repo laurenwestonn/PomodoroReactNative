@@ -3,11 +3,16 @@ import AppPageWrapper from '@/components/AppPageWrapper';
 import { Area, Line, Chart, HorizontalAxis, VerticalAxis, Label } from 'react-native-responsive-linechart';
 import { testBasicPlots, testPlots, valueToTime } from "@/utils/timeHelpers";
 
-const ResultsTab = () => {
+interface ResultsTabProps {
+    data?: any[]
+}
+
+const ResultsTab = (props: ResultsTabProps) => {
+    console.log('Viewing graph for ', props.data ?? testPlots)
     return (
         <AppPageWrapper>
             <Chart style={{height: 400, width: "100%"}}
-                data={testPlots}
+                data={props.data ?? testPlots}
                 padding={{left: 40, bottom: 60, right: 20, top: 20}}
                 yDomain={{ min: 0, max: 90}}
             >

@@ -6,19 +6,19 @@ interface AllResultsPageInterface {
 }
 
 const formatTimeSimple = (time: number) => {
-  const absTime = Math.abs(time);
+  const timeInSeconds = Math.floor(Math.abs(time) / 1000);
 
-  if (absTime < 60) {
-    return `${absTime}s`;
+  if (timeInSeconds < 60) {
+    return `${timeInSeconds}s`;
   } else {
-    if (absTime < 3600) {
-      return `${Math.floor(absTime / 60)}m ${Math.floor(absTime % 60)}s`;
+    if (timeInSeconds < 3600) {
+      return `${Math.floor(timeInSeconds / 60)}m ${Math.floor(timeInSeconds % 60)}s`;
     }
   }
 
-  const hours = Math.floor(absTime / 3600);
-  const minutes = Math.floor((absTime % 3600) / 60);
-  const seconds = absTime % 60;
+  const hours = Math.floor(timeInSeconds / 3600);
+  const minutes = Math.floor((timeInSeconds % 3600) / 60);
+  const seconds = timeInSeconds % 60;
 
   return (
     <Text>

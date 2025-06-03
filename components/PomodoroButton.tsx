@@ -11,10 +11,10 @@ interface PomodoroButtonInterface {
 }
 
 export const formatTime = (time: number) => {
-  const absTime = Math.abs(time);
-  const hours = Math.floor(absTime / 3600);
-  const minutes = Math.floor((absTime % 3600) / 60);
-  const seconds = absTime % 60;
+  const timeInSeconds = Math.floor(Math.abs(time) / 1000);
+  const hours = Math.floor(timeInSeconds / 3600);
+  const minutes = Math.floor((timeInSeconds % 3600) / 60);
+  const seconds = timeInSeconds % 60;
 
   return (
     <>
