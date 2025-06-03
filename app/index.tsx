@@ -25,6 +25,9 @@ export default function Home() {
     let intervalId: NodeJS.Timeout;
     console.log('State:', State[state])
     setTimestamps([...timestamps, getTimeNowInMillis()])
+    // For testing setting time hours apart
+    // setTimestamps([...timestamps, getTimeNowInMillis(timestamps.length)])
+
 
     if (state === State.focus) {
       let startTimeNew = getTimeNowInMillis();

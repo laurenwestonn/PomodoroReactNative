@@ -50,7 +50,10 @@ export const timestampToHumanReadable = (timestamp: number): string => {
 // DATE & TIME MANIPULATION
 // =============================
 
-export const getTimeNowInMillis = () => Date.now();
+export const getTimeNowInMillis = (h:number = 0) => {
+    return Date.now() + (h * 60 * 60 * 100)
+};
+
 export const getTimeNowInSeconds = () => Math.ceil(Date.now() / 1000);
 const getTimeNowInMs = () => Date.now();
 
