@@ -30,23 +30,27 @@ export default function Home() {
     let intervalId: NodeJS.Timeout;
 
     if (state === State.focus) {
-      intervalId = setInterval(() => setTime(getTimeNowInSeconds() - startTime)), 10; // update value more often than every second, to account for changing state mid second
+      intervalId = setInterval(() => {
+        setTime(getTimeNowInSeconds() - startTime)
+      }), 10; // update value more often than every second, to account for changing state mid second
     } else if (state === State.break) {
-      intervalId = setInterval(() => setTime(startTime - getTimeNowInSeconds()), 10);
+      intervalId = setInterval(() => {
+        setTime(startTime - getTimeNowInSeconds())
+      }, 10);
     } else {
       setTime(0);
     }
 
     // The next time this use effect is entered, it stops doing the regularly defined thing in setInterval
     return () => clearInterval(intervalId);
-  }, [startTime])
+  }, [startTime, state])
 
   const calcBreak = (time: number) => {
     return Math.floor(time / 5);
   };
 
   // Todo: DRY with Pomodoro page code
-  const updateHistoryWithLatestTime = () => {
+  const returnHistoryIncludingCurrentTime = () => {
     if (state == State.focus) {
       return [...history, time];
     } else if (state == State.break) {
@@ -62,14 +66,14 @@ export default function Home() {
   };
 
   const showResults = () => {
-    const history: number[] = updateHistoryWithLatestTime();
+    const history: number[] = returnHistoryIncludingCurrentTime();
     setHistory([]);
     setTime(0);
     if (history.length > 0) {
       addHistory(history);
     }
 
-    router.push("ResultsTab");
+    router.push("/ResultsTab");
   };
 
   return (
