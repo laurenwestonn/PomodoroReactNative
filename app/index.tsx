@@ -7,12 +7,16 @@ import { useHistories } from '@/context/HistoriesProvider';
 import AppPageWrapper from '@/components/AppPageWrapper';
 import { useRouter } from "expo-router";
 import { getTimeNowInMillis, timestampToHumanReadable } from '@/utils/timeHelpers';
+import { useTimelines } from '@/context/TimelinesProvider';
 
 export default function Home() {
   const { addHistory } = useHistories();
+  const { addTimeline } = useTimelines();
   const [state, setState] = useState(State.initial);
-  const [history, setHistory] = useState<number[]>([]);
   const [time, setTime] = useState(0);
+  const [history, setHistory] = useState<number[]>([]);
+  // Todo: dont need both, surely can find history from timestamps?
+  const [timestamps, setTimestamps] = useState([getTimeNowInMillis()]);
   const [focusStartTime, setFocusStartTime] = useState(0);
 
   const router = useRouter();
@@ -20,6 +24,7 @@ export default function Home() {
   useEffect(() => {
     let intervalId: NodeJS.Timeout;
     console.log('State:', State[state])
+    setTimestamps([...timestamps, getTimeNowInMillis()])
 
     if (state === State.focus) {
       let startTimeNew = getTimeNowInMillis();
@@ -31,13 +36,12 @@ export default function Home() {
 
     } else if (state === State.break) {
       let startTimeNew = getTimeNowInMillis() + getRecommendedBreak();
-      // console.log('Changed to break at\t', timestampToHumanReadable(getTimeNowInMillis()))
-      // console.log('Countdown will be from\t', timestampToHumanReadable(startTimeNew))
       
       intervalId = setInterval(() => {
         setTime(startTimeNew - getTimeNowInMillis())
       }, 10);
     } else {
+      setTimestamps([])
       setHistory([]);
       setTime(0);
     }
@@ -45,6 +49,11 @@ export default function Home() {
     // The next time this use effect is entered, it stops doing the regularly defined thing in setInterval
     return () => clearInterval(intervalId);
   }, [state])
+
+  useEffect(() => {
+    console.log('timestamps: ', timestamps)
+    timestampToHumanReadable(timestamps[timestamps.length])
+  }, [timestamps])
 
   const calcBreak = (time: number) => {
     return Math.floor(time / 5);
@@ -72,6 +81,7 @@ export default function Home() {
   };
 
   const showResults = () => {
+    addTimeline([...timestamps, getTimeNowInMillis()])
     const history: number[] = returnHistoryIncludingCurrentTime();
     setHistory([]);
     setTime(0);
@@ -79,7 +89,7 @@ export default function Home() {
       addHistory(history);
     }
 
-    router.push("/ResultsTab");
+    router.push("/Graph");
   };
 
   return (

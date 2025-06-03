@@ -1,20 +1,37 @@
 import React from "react";
 import AppPageWrapper from '@/components/AppPageWrapper';
 import { Area, Line, Chart, HorizontalAxis, VerticalAxis, Label } from 'react-native-responsive-linechart';
-import { testBasicPlots, testPlots, valueToTime } from "@/utils/timeHelpers";
+import { testBasicPlots, testPlots, timestampsToPlots, valueToTime } from "@/utils/timeHelpers";
+import { useTimelines } from "@/context/TimelinesProvider";
 
-interface GraphPageProps {
-    data?: any[]
-}
 
-const GraphPage = (props: GraphPageProps) => {
-    console.log('Viewing graph for ', props.data ?? testPlots)
+const GraphPage = () => {
+    const { allTimelines } = useTimelines();
+
+    let data = testPlots
+    let forceTestData = false
+    console.log(testPlots)
+
+    if (!forceTestData)
+    {
+        if (allTimelines && allTimelines.length > 0) {
+            let mostRecentTimeline = allTimelines[allTimelines.length - 1]
+            let mostRecentTimelineAsPlots = timestampsToPlots(allTimelines[allTimelines.length - 1])
+            console.log(mostRecentTimeline)
+            console.log(mostRecentTimelineAsPlots)
+            // console.log('most recent timeline, can we load it on graph?', allTimelines[allTimelines.length - 1])
+            data = mostRecentTimelineAsPlots
+        } else {
+            console.log('load test data onto graph', testPlots)
+        }
+    }
     return (
         <AppPageWrapper>
             <Chart style={{height: 400, width: "100%"}}
-                data={props.data ?? testPlots}
+                data={data}
                 padding={{left: 40, bottom: 60, right: 20, top: 20}}
-                yDomain={{ min: 0, max: 90}}
+                // Todo: this value only works assuming you work around an hour at a time. for testing is hard to see. can we adjust this so it's as tall as your longest wokr period?
+                yDomain={{ min: 0, max: forceTestData ? 90 : 1}}
             >
                 <VerticalAxis 
                     tickCount={3} 

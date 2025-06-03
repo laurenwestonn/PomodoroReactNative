@@ -91,7 +91,7 @@ const simulateWork = (timestamp: number, workDurations: number[]): number[] => {
     }, [timestamp]);
 };
 
-const timestampsToPlots = (timestamps: number[]): XYValue[] => {
+export const timestampsToPlots = (timestamps: number[]): XYValue[] => {
     if (!timestamps || timestamps.length < 2) return [];
 
     const plots: XYValue[] = [];
