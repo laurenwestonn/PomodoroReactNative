@@ -31,7 +31,7 @@ const GraphPage = () => {
                 data={data}
                 padding={{left: 40, bottom: 60, right: 20, top: 20}}
                 // Todo: this value only works assuming you work around an hour at a time. for testing is hard to see. can we adjust this so it's as tall as your longest wokr period?
-                yDomain={{ min: 0, max: forceTestData ? 90 : 1}}
+                yDomain={{ min: 0, max: !forceTestData ? 90 : 1}}
             >
                 <VerticalAxis 
                     tickCount={3} 

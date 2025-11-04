@@ -1,7 +1,8 @@
 import { State } from '@/constants/State';
-import PomodoroButton from "./PomodoroButton";
+import { View, Text, TouchableOpacity } from 'react-native';
+import PomodoroPageButton from './PomodoroPageButton';
 
-interface PomodoroPageInterface {
+export interface PomodoroPageInterface {
   state: State;
   setState: (state: State) => void;
   time: number;
@@ -9,52 +10,48 @@ interface PomodoroPageInterface {
   setHistory: (time: number[]) => void;
 }
 
-const calcBreak = (time: number) => {
+export const calcBreak = (time: number) => {
   return Math.floor(time / 5);
 };
 
 const PomodoroPage = (props: PomodoroPageInterface) => {
-  if (props.state === State.initial) {
-    return (
-      <PomodoroButton
-        onClick={() => props.setState(State.focus)}
-        text={'Start'}
-        stateName={State.initial}
-        time={props.time}
-      />
-    );
-  } else if (props.state === State.focus) {
-    return (
-      <PomodoroButton
-        onClick={() => {
-          props.setState(State.break);
-          props.setHistory([...props.history, props.time]);
-        }}
-        text={'Tap for a break'}
-        stateName={State.focus}
-        hasOverran={props.time < 0}
-        time={props.time}
-      />
-    );
-  } else if (props.state === State.break) {
-    return (
-      <PomodoroButton
-        onClick={() => {
-          props.setState(State.focus);
-          const recommendedBreak = calcBreak(
-            props.history[props.history.length - 1]
-          );
-          props.setHistory([...props.history, recommendedBreak - props.time]);
-        }}
-        text={'Back to it in...'}
-        stateName={State.break}
-        hasOverran={props.time < 0}
-        time={props.time}
-      />
-    );
+
+  const onPause = () => {
+    // if we were on focus, we want to save the current time, then pad an empty entry
+    if (props.state === State.focus) {
+      console.log('Pause from working')
+      console.log('history is', props.history)
+      props.setHistory([...props.history, props.time, 0]);
+      console.log('setting history', [...props.history, props.time, 0])
+    } else if (props.state === State.break) {
+      console.log('Pause from a break')
+      console.log('history is', props.history)
+      const recommendedBreak = calcBreak(
+        props.history[props.history.length - 1]
+      );
+      props.setHistory([...props.history, recommendedBreak - props.time]);
+      console.log('setting history', [...props.history, recommendedBreak - props.time])
+
+    }
+    props.setState(State.pause)
+
   }
 
-  return null;
+  return <View style={{ alignItems: 'center', gap: 20 }}>
+    {props.state !== State.pause && <TouchableOpacity style={{ backgroundColor: 'white', height: 50, width: 50, borderRadius: '100%'}} onPress={onPause}>
+      <Text>Pause</Text>
+    </TouchableOpacity>}
+
+    <PomodoroPageButton {...props} />
+
+    <View>
+    {
+      props.history.map((x,i) => (
+        <Text key={i} style={{color: (i%2 === 0 ? 'orange' : 'powderblue')}}>{(Math.round(x) / 1000).toFixed(2)}</Text>
+      ))
+    }
+    </View>
+  </View>
 };
 
 export default PomodoroPage;

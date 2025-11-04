@@ -7,7 +7,7 @@ interface PomodoroButtonInterface {
   text: string;
   stateName: State;
   hasOverran?: boolean;
-  time: number;
+  time?: number;
 }
 
 export const formatTime = (time: number) => {
@@ -37,14 +37,17 @@ const PomodoroButton: React.FC<PomodoroButtonInterface> = ({
   let color: string = defaultColor;
 
   if (hasOverran) {
-    color = 'rgb(119, 16, 16)';
+    color = 'rgba(123, 52, 52, 1)';
   } else {
     switch (stateName) {
       case State.focus:
-        color = 'rgb(221, 155, 61)';
+        color = 'rgba(195, 147, 79, 1)';
         break;
       case State.break:
-        color = 'rgb(148, 203, 240)';
+        color = 'rgba(169, 187, 199, 1)';
+        break;
+      case State.pause:
+        color = 'rgba(158, 153, 194, 1)';
         break;
       case State.initial:
       default:
@@ -59,7 +62,7 @@ const PomodoroButton: React.FC<PomodoroButtonInterface> = ({
         onPress={onClick}
       >
         <Text style={styles.buttonText}>{text}</Text>
-        <Text style={styles.buttonTimeText}>{formatTime(time)}</Text>
+        {time !== undefined && <Text style={styles.buttonTimeText}>{formatTime(time)}</Text>}
       </TouchableOpacity>
     </View>
   );

@@ -12,7 +12,7 @@ const ResetAndFinishButtons = ({ state, setInitialState, showResults }: ResetAnd
     
     return (
         <View style={{ height: 60, width: '100%', position: 'absolute', bottom: 0, flexDirection: 'row' }}>
-            {(state === State.focus || state === State.break) && (
+            {(state === State.focus || state === State.break || state === State.pause) && (
                 <>
                     <FooterButton
                         name="reset"

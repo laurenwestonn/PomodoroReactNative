@@ -5,7 +5,7 @@ const AppPageWrapper: React.FC<{ children: React.ReactNode }> = ({children}) => 
     return (
         <View
             style={{
-                backgroundColor: '#282c34',
+                backgroundColor: '#3a3023ff',
                 flex: 1,
                 alignItems: "center",
                 justifyContent: 'center',

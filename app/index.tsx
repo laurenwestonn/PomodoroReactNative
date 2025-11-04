@@ -43,6 +43,8 @@ export default function Home() {
       intervalId = setInterval(() => {
         setTime(startTimeNew - getTimeNowInMillis())
       }, 10);
+    } else if (state === State.pause) {
+      
     } else {
       setTimestamps([])
       setHistory([]);
@@ -69,10 +71,9 @@ export default function Home() {
 
   // Todo: DRY with Pomodoro page code
   const returnHistoryIncludingCurrentTime = () => {
-    if (state == State.focus) {
+    if (state === State.focus || state === State.pause) {
       return [...history, time];
     } else if (state == State.break) {
-
       const recommendedBreak = calcBreak(
         history[history.length - 1]
       );
@@ -97,19 +98,13 @@ export default function Home() {
 
   return (
     <AppPageWrapper>
-
-      <View style={{
-        alignItems: 'center'
-      }}>
-        <PomodoroPage
-          state={state}
-          setState={setState}
-          history={history}
-          setHistory={setHistory}
-          time={time}
-        />
-      </View>
-
+      <PomodoroPage
+        state={state}
+        setState={setState}
+        history={history}
+        setHistory={setHistory}
+        time={time}
+      />
       <ResetAndFinishButtons
         state={state}
         setInitialState={() => setState(State.initial)}
