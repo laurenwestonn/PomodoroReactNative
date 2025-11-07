@@ -1,9 +1,8 @@
 import { State } from '@/constants/State';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import PomodoroPageButton from './PomodoroPageButton';
 import { MaterialIcons } from '@expo/vector-icons';
-import { valueToTime } from '@/utils/timeHelpers';
-import { ScrollView } from 'react-native-gesture-handler';
+import { Timeline } from './Timeline';
 
 export interface PomodoroPageInterface {
   state: State;
@@ -41,9 +40,9 @@ const PomodoroPage = (props: PomodoroPageInterface) => {
   }
 
   return <View style={{ alignItems: 'center', gap: 20 }}>
-    {props.state !== State.pause && 
+    {props.state !== State.pause && props.state !== State.initial &&
       <TouchableOpacity 
-        style={{ backgroundColor: 'white', height: 60, width: 60, borderRadius: 30, justifyContent: 'center', alignItems: 'center' }} 
+        style={{ backgroundColor: '#f3e8d8', height: 60, width: 60, borderRadius: 30, justifyContent: 'center', alignItems: 'center' }} 
         onPress={onPause}
         accessible={true}
         accessibilityLabel="Pause button"
@@ -55,20 +54,7 @@ const PomodoroPage = (props: PomodoroPageInterface) => {
 
     <PomodoroPageButton {...props} />
 
-  {props.history.length > 0 && 
-      <View>
-        <Text style={{color: 'white', fontWeight: 'bold' }} >History</Text>
-      <ScrollView style={{height: 200, backgroundColor: '#766', padding: 10}}>
-      {
-        props.history.map((x,i) => (
-          <Text key={i} style={{color: (i%2 === 0 ? 'orange' : 'powderblue')}}>
-            { valueToTime(x/100000) }
-          </Text>
-        ))
-      }
-      </ScrollView>
-      </View>
-  }
+    <Timeline history={props.history} />
   </View>
 };
 
