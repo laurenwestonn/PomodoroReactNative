@@ -3,12 +3,14 @@ import { FontAwesome } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
 import Entypo from '@expo/vector-icons/Entypo';
 import { TimelinesProvider } from "@/context/TimelinesProvider";
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 export default function RootLayout() {
   return (
-    <TimelinesProvider>
-      <HistoriesProvider>
-        <Tabs>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <TimelinesProvider>
+        <HistoriesProvider>
+          <Tabs>
           <Tabs.Screen
             name="index"
             options={{
@@ -36,5 +38,6 @@ export default function RootLayout() {
         </Tabs>
       </HistoriesProvider>
     </TimelinesProvider>
+    </GestureHandlerRootView>
   );
 }
