@@ -62,7 +62,7 @@ const GraphPage = () => {
           theme={{
             ...axisTheme,
             labels: {
-              label: {...labelTheme, rotation: 30, dx: 25, dy: -35},
+              label: {...labelTheme, rotation: 30, dx: 10, dy: -25},
               formatter: valueToTime
             }
           }}

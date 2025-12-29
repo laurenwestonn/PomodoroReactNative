@@ -6,6 +6,7 @@ import { humanReadablePlots, workCycle as exampleWorkDurations } from "./testDat
 // TIME CONVERSION UTILITIES
 // =============================
 
+// For Graph X Axis
 // Convert decimal time (e.g. 20.2916666) to human-readable format (e.g. "20:17:30")
 export const valueToTime = (value: number): string => {
   const hours = Math.floor(value);
@@ -13,13 +14,24 @@ export const valueToTime = (value: number): string => {
   const decimal = value % 1;
   const totalMinutes = decimal * 60;
   const minutes = Math.floor(totalMinutes);
-  const secondsDecimal = totalMinutes % 1;
-  const seconds = Math.floor(secondsDecimal * 60);
 
   const formattedMinutes = minutes.toString().padStart(2, '0');
+
+  return `${hours}:${formattedMinutes}`;
+}
+
+// For timeline
+// Convert decimal time (e.g. 20.516666) to human-readable format (e.g. "20m 30s")
+export const valueToTimeLine = (value: number): string => {
+  const minutes = Math.floor(value);
+
+  const decimal = value % 1;
+  const totalSeconds = decimal * 60;
+  const seconds = Math.floor(totalSeconds);
+
   const formattedSeconds = seconds.toString().padStart(2, '0');
 
-  return `${hours}:${formattedMinutes}:${formattedSeconds}`;
+  return `${minutes}m ${formattedSeconds}s`;
 }
 
 // Convert decimal time (e.g. 0.2620833) to human-readable format (e.g.  "15s")

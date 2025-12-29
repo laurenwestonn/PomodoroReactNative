@@ -1,8 +1,9 @@
 import { State } from '@/constants/State';
-import { View, TouchableOpacity } from 'react-native';
+import {View, TouchableOpacity} from 'react-native';
 import PomodoroPageButton from './PomodoroPageButton';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Timeline } from './Timeline';
+import React from "react"
 
 export interface PomodoroPageInterface {
   state: State;
@@ -38,8 +39,8 @@ const PomodoroPage = (props: PomodoroPageInterface) => {
     props.setState(State.pause)
 
   }
-
-  return <View style={{ alignItems: 'center', gap: 20 }}>
+  
+  return <View className={'items-center gap-10'}>
     {props.state !== State.pause && props.state !== State.initial &&
       <TouchableOpacity 
         style={{ backgroundColor: '#f3e8d8', height: 60, width: 60, borderRadius: 30, justifyContent: 'center', alignItems: 'center' }} 
