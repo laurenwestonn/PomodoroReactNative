@@ -96,7 +96,19 @@ export default function Home() {
 
     router.push("/Graph");
   };
+  
+  const addToHistorySet = (historyRecords: number[]) => {
+    setHistory([...history, ...historyRecords])
+  }
 
+  const getRecommendedBreakTime = () => {
+    return Math.floor(history[history.length - 1] / 5)
+  }
+
+  useEffect(() => {
+    console.log('History updated:', history)
+  }, [history]);
+  
   return (
     <SafeAreaProvider>
       <AppPageWrapper>
@@ -104,8 +116,9 @@ export default function Home() {
           state={state}
           setState={setState}
           history={history}
-          setHistory={setHistory}
+          addToHistorySet={addToHistorySet}
           time={time}
+          getRecommendedBreakTime={getRecommendedBreakTime}
         />
         <ResetAndFinishButtons
           state={state}

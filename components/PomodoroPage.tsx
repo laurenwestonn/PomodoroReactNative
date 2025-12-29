@@ -11,12 +11,9 @@ export interface PomodoroPageInterface {
   setState: (state: State) => void;
   time: number;
   history: number[];
-  setHistory: (time: number[]) => void;
+  addToHistorySet: (records: number[]) => void;
+  getRecommendedBreakTime: () => number; 
 }
-
-export const calcBreak = (time: number) => {
-  return Math.floor(time / 5);
-};
 
 const PomodoroPage = (props: PomodoroPageInterface) => {
 
@@ -24,18 +21,10 @@ const PomodoroPage = (props: PomodoroPageInterface) => {
     // if we were on focus, we want to save the current time, then pad an empty entry
     if (props.state === State.focus) {
       console.log('Pause from working')
-      console.log('history is', props.history)
-      props.setHistory([...props.history, props.time, 0]);
-      console.log('setting history', [...props.history, props.time, 0])
+      props.addToHistorySet([props.time, 0]);
     } else if (props.state === State.break) {
-      console.log('Pause from a break')
-      console.log('history is', props.history)
-      const recommendedBreak = calcBreak(
-        props.history[props.history.length - 1]
-      );
-      props.setHistory([...props.history, recommendedBreak - props.time]);
-      console.log('setting history', [...props.history, recommendedBreak - props.time])
-
+      console.log('Pause from a break');
+      props.addToHistorySet([props.getRecommendedBreakTime() - props.time]);
     }
     props.setState(State.pause)
 

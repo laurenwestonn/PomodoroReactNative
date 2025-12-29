@@ -2,8 +2,6 @@ import { State } from '@/constants/State';
 import PomodoroButton from "./PomodoroButton";
 import { calcBreak, PomodoroPageInterface } from './PomodoroPage';
 
-
-
 const PomodoroPageButton = (props: PomodoroPageInterface) => {
   if (props.state === State.initial) {
     return (
@@ -19,8 +17,7 @@ const PomodoroPageButton = (props: PomodoroPageInterface) => {
       <PomodoroButton
         onClick={() => {
           props.setState(State.break);
-          props.setHistory([...props.history, props.time]);
-          console.log('setting history', [...props.history, props.time])
+          props.addToHistorySet([props.time]);
         }}
         text={'Tap for a break'}
         stateName={State.focus}
@@ -33,11 +30,7 @@ const PomodoroPageButton = (props: PomodoroPageInterface) => {
       <PomodoroButton
         onClick={() => {
           props.setState(State.focus);
-          const recommendedBreak = calcBreak(
-            props.history[props.history.length - 1]
-          );
-          props.setHistory([...props.history, recommendedBreak - props.time]);
-          console.log('setting history', [...props.history, recommendedBreak - props.time])
+          props.addToHistorySet([props.getRecommendedBreakTime() - props.time]);
         }}
         text={'Back to it in...'}
         stateName={State.break}
