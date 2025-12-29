@@ -1,8 +1,9 @@
 import { State } from '@/constants/State';
-import {View, TouchableOpacity} from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import PomodoroPageButton from './PomodoroPageButton';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Timeline } from './Timeline';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import React from "react"
 
 export interface PomodoroPageInterface {
@@ -40,15 +41,15 @@ const PomodoroPage = (props: PomodoroPageInterface) => {
 
   }
   
-  return <View className={'items-center gap-10'}>
+  return <SafeAreaView className={'items-center gap-10 pt-4'}>
     {props.state !== State.pause && props.state !== State.initial &&
-      <TouchableOpacity 
-        style={{ backgroundColor: '#f3e8d8', height: 60, width: 60, borderRadius: 30, justifyContent: 'center', alignItems: 'center' }} 
+      <TouchableOpacity
+        className={'bg-amber-100 h-14 w-14 rounded-full justify-center items-center'}
         onPress={onPause}
         accessible={true}
         accessibilityLabel="Pause button"
         accessibilityHint="Pauses the current action"
-    >
+      >
         <MaterialIcons name="pause" size={28} color="black" />
       </TouchableOpacity>
     }
@@ -56,7 +57,7 @@ const PomodoroPage = (props: PomodoroPageInterface) => {
     <PomodoroPageButton {...props} />
 
     <Timeline history={props.history} />
-  </View>
+  </SafeAreaView>
 };
 
 export default PomodoroPage;
