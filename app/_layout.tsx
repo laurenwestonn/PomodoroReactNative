@@ -1,6 +1,7 @@
 import { HistoriesProvider } from "@/context/HistoriesProvider";
 import { FontAwesome } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
+import '../global.css'
 import Entypo from '@expo/vector-icons/Entypo';
 import { TimelinesProvider } from "@/context/TimelinesProvider";
 import { GestureHandlerRootView } from 'react-native-gesture-handler';

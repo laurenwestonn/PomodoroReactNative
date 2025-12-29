@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import PomodoroPage from "@/components/PomodoroPage";
-import { View } from "react-native";
 import ResetAndFinishButtons from '@/components/ResetAndFinishButtons';
 import { State } from '@/constants/State';
 import { useHistories } from '@/context/HistoriesProvider';
@@ -8,6 +7,8 @@ import AppPageWrapper from '@/components/AppPageWrapper';
 import { useRouter } from "expo-router";
 import { getTimeNowInMillis, timestampToHumanReadable } from '@/utils/timeHelpers';
 import { useTimelines } from '@/context/TimelinesProvider';
+import "../global.css"
+import {SafeAreaProvider} from "react-native-safe-area-context";
 
 export default function Home() {
   const { addHistory } = useHistories();
@@ -97,20 +98,22 @@ export default function Home() {
   };
 
   return (
-    <AppPageWrapper>
-      <PomodoroPage
-        state={state}
-        setState={setState}
-        history={history}
-        setHistory={setHistory}
-        time={time}
-      />
-      <ResetAndFinishButtons
-        state={state}
-        setInitialState={() => setState(State.initial)}
-        showResults={showResults}
-      />
-
-    </AppPageWrapper>
+    <SafeAreaProvider>
+      <AppPageWrapper>
+        <PomodoroPage
+          state={state}
+          setState={setState}
+          history={history}
+          setHistory={setHistory}
+          time={time}
+        />
+        <ResetAndFinishButtons
+          state={state}
+          setInitialState={() => setState(State.initial)}
+          showResults={showResults}
+        />
+  
+      </AppPageWrapper>
+    </SafeAreaProvider>
   );
 }
