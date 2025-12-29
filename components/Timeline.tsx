@@ -29,11 +29,11 @@ export const Timeline = (props: HistoryProps) => {
         <ScrollView className={'my-4'}>
             {
               props.history.map((x,i) => (
-                <Text 
-                  className={`text-center ${(i%2 === 0 ? 'text-yellow-500 text-2xl' : 'text-blue-100 text-xl')}`} 
+                <Text
+                  className={`text-center ${(i%2 === 0 ? 'text-yellow-500 text-2xl' : 'text-blue-100 text-xl')}`}
                   key={i}
                 >
-                  { valueToTimeLine(x/60000) } 
+                  { valueToTimeLine(x/60) } 
                 </Text>
               ))
             }

@@ -6,7 +6,7 @@ interface AllResultsPageInterface {
 }
 
 const formatTimeSimple = (time: number) => {
-  const timeInSeconds = Math.floor(Math.abs(time) / 1000);
+  const timeInSeconds = Math.floor(Math.abs(time));
 
   if (timeInSeconds < 60) {
     return `${timeInSeconds}s`;

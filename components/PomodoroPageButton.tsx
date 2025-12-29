@@ -17,6 +17,7 @@ const PomodoroPageButton = (props: PomodoroPageInterface) => {
       <PomodoroButton
         onClick={() => {
           props.setState(State.break);
+          console.log('Add to the history time: ' + props.time);
           props.addToHistorySet([props.time]);
         }}
         text={'Tap for a break'}
@@ -30,6 +31,8 @@ const PomodoroPageButton = (props: PomodoroPageInterface) => {
       <PomodoroButton
         onClick={() => {
           props.setState(State.focus);
+          const breakt = props.getRecommendedBreakTime()
+          console.log('Add to the history break ' + breakt + ' - time: ' + props.time + ' = ' + [props.getRecommendedBreakTime() - props.time]);
           props.addToHistorySet([props.getRecommendedBreakTime() - props.time]);
         }}
         text={'Back to it in...'}

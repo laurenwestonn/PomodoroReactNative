@@ -34,26 +34,25 @@ export const valueToTimeLine = (value: number): string => {
   return `${minutes}m ${formattedSeconds}s`;
 }
 
-// Convert decimal time (e.g. 0.2620833) to human-readable format (e.g.  "15s")
-// To display in the y axis.
+// Convert minutes (e.g. 15.725) to human-readable format (e.g. "15m 43s")
+// To display in the y axis. Receives minutes from plot y values.
 export const valueToTimeLength = (value: number): string => {
-  const hours = Math.floor(value);
+  const minutes = Math.floor(value);
+  const decimal = value % 1;
+  const seconds = Math.floor(decimal * 60);
 
-  const totalMinutes = value % 1;
-  const minutes = Math.floor(totalMinutes);
-  const totalSeconds = totalMinutes * 60;
-  const seconds = Math.floor(totalSeconds);
-  
-  if (hours === 0) {
-    if (minutes === 0) {
-      if (seconds === 0) {
-        return '0'
-      }
-      return `${seconds}s`
+  if (minutes === 0) {
+    if (seconds === 0) {
+      return '0'
     }
-    return `${minutes}m ${seconds}s`
+    return `${seconds}s`
   }
-  return `${hours}h ${minutes}m`
+  if (minutes >= 60) {
+    const hours = Math.floor(minutes / 60);
+    const remainingMinutes = minutes % 60;
+    return `${hours}h ${remainingMinutes}m`
+  }
+  return `${minutes}m ${seconds}s`
 }
 
 // Convert human-readable time (e.g., "8:15") to decimal time (e.g., 8.25)
@@ -77,10 +76,23 @@ const timestampToGraphValue = (timestamp: number): number => {
 // Convert timestamp to human-readable time
 // (e.g. 1737887405000 -> "10:30")
 export const timestampToHumanReadable = (timestamp: number): string => {
+  if (!timestamp || isNaN(timestamp)) {
+    console.log('Invalid timestamp received:', timestamp);
+    return 'Invalid time';
+  }
+
   const date = new Date(timestamp);
-  const mins = date.getUTCMinutes().toString().padStart(2, '0');
-  const secs = date.getUTCSeconds().toString().padStart(2, '0')
-  return `${date.getUTCHours()}:${mins}:${secs}`;
+
+  if (isNaN(date.getTime())) {
+    console.log('Date creation failed for timestamp:', timestamp);
+    return 'Invalid date';
+  }
+
+  const hours = date.getHours();
+  const mins = date.getMinutes();
+  const secs = date.getSeconds();
+
+  return `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
 }
 
 

@@ -23,7 +23,7 @@ export default function Home() {
   const router = useRouter();
 
   useEffect(() => {
-    let intervalId: NodeJS.Timeout;
+    let intervalId: number;
     console.log('State:', State[state])
     setTimestamps([...timestamps, getTimeNowInMillis()])
     // For testing setting time hours apart
@@ -35,14 +35,18 @@ export default function Home() {
       setFocusStartTime(startTimeNew)
 
       intervalId = setInterval(() => {
-        setTime(getTimeNowInMillis() - startTimeNew)
+        const timestampDiff = getTimeNowInMillis() - startTimeNew
+        const secondsSince = timestampDiff / 1000;
+        setTime(secondsSince)
       }, 10); // update value more often than every second, to account for changing state mid second
 
     } else if (state === State.break) {
       let startTimeNew = getTimeNowInMillis() + getRecommendedBreak();
       
       intervalId = setInterval(() => {
-        setTime(startTimeNew - getTimeNowInMillis())
+        const timestampDiff = startTimeNew - getTimeNowInMillis()
+        const secondsSince = timestampDiff / 1000;
+        setTime(secondsSince)
       }, 10);
     } else if (state === State.pause) {
       
@@ -57,8 +61,7 @@ export default function Home() {
   }, [state])
 
   useEffect(() => {
-    console.log('timestamps: ', timestamps)
-    timestampToHumanReadable(timestamps[timestamps.length])
+    console.log('timestamps human readable: ', timestamps.map(x => timestampToHumanReadable(x)))
   }, [timestamps])
 
   const calcBreak = (time: number) => {
@@ -102,6 +105,7 @@ export default function Home() {
   }
 
   const getRecommendedBreakTime = () => {
+    console.log('recommend break time of: ', Math.floor(history[history.length - 1] / 5))
     return Math.floor(history[history.length - 1] / 5)
   }
 
